@@ -2,8 +2,10 @@
 
 ## Requirements
 
-- Make
-- Docker
+- Bash 3.2
+- Python 2.7
+- Make 3.81
+- Docker 17.03
 
 ## Build All Judges
 

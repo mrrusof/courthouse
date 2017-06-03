@@ -1,12 +1,11 @@
 all: test
 
-compile:
+build:
 	cd src && docker build -t ruby-judge .
 
-test: compile
-	@export JUDGE_TIMEOUT=0.5 && \
-	for f in $$(pwd)/test/*; do \
-	  ./run-test.sh $$f $$(pwd)/run-ruby-judge.sh; \
+test: build
+	@for f in $$(pwd)/test/*; do \
+	  ./test.sh $$f $$(pwd)/ruby-judge.sh; \
         done
 
 clean:
