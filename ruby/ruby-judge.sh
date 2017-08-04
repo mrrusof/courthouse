@@ -29,7 +29,7 @@ while (( `date "+%s"` < stop && $wait )); do
 done
 
 if (( $wait )); then
-    echo '{ "verdict":"TIMEOUT", "time":"'$JUDGE_TIMEOUT'" }'
+    echo '{ "ruling":"TIMEOUT", "time":"'$JUDGE_TIMEOUT'" }'
 else
     docker logs `cat $CID` >$COUT
     exit_code=`head -n 1 $COUT`
@@ -38,13 +38,13 @@ else
     actual=`cat $ACT | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'`
     if [ "$exit_code" = 0 ]; then
         if diff $ACT $EXP >$DIFF 2>&1; then
-            echo -n '{ "verdict":"ACCEPTED", "time":"'
+            echo -n '{ "ruling":"ACCEPTED", "time":"'
         else
             diff=`cat $DIFF | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'`
-            echo -n '{ "verdict":"WRONG_ANSWER", "diff":'$diff', "time":"'
+            echo -n '{ "ruling":"WRONG_ANSWER", "diff":'$diff', "time":"'
         fi
     else
-        echo -n '{ "verdict":"RUNTIME_ERROR", "time":"'
+        echo -n '{ "ruling":"RUNTIME_ERROR", "time":"'
     fi
     echo $time'", "actual":'$actual' }'
 fi
