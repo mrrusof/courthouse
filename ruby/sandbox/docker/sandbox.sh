@@ -1,7 +1,9 @@
 #!/bin/bash
 
-SRC=/run/judge/main.rb
-INP=/run/judge/in
+su sandbox
+
+SRC=/input/main.rb
+INP=/input/in
 ACT=/tmp/act
 TIM=/tmp/time
 
