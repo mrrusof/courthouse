@@ -17,28 +17,13 @@ function dl {
     docker logs $1
 }
 
-function start-docker {
-  rc-service docker start >/dev/null 2>&1
-  
-  (( tries = 0 ))
-  while ! docker ps >/dev/null 2>&1 && (( tries++ < 10 )); do
-      sleep 1
-  done
-  if (( tries == 10 )); then
-      exit 1
-  fi
-}
-
 # Constants
 JUDGE=ruby
-JUDGE_INPUT_DIR=/input
 ACT=`mktemp`
-EXP=$JUDGE_INPUT_DIR/out
+EXP=/input/out
 DIFF=/tmp/$JUDGE-judge.diff
 
-start-docker
-
-CID=`/judge/run-sandbox.sh $JUDGE $JUDGE_INPUT_DIR` 2>/dev/null
+CID=`/judge/run-sandbox.sh $JUDGE $SANDBOX_INPUT_DIR` 2>/dev/null
 
 if ! /judge/wait-w-timeout.sh $CID $JUDGE_TIMEOUT >/dev/null 2>&1; then
     echo '{ "ruling":"TIMEOUT", "time":"'$JUDGE_TIMEOUT'" }'

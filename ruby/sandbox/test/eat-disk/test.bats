@@ -10,7 +10,7 @@ function teardown {
   docker inspect $CID | grep '"ExitCode": 137'
 }
 
-@test "eat-cpu: There are no lines of output." {
+@test "eat-disk: There are no lines of output." {
   r=$(docker logs $CID | wc -l)
   [ "$r" = 0 ]
 }

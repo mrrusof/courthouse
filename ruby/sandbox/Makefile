@@ -1,17 +1,17 @@
 all: test
 
-build: sandbox.tar
+build: .build
 
-sandbox.tar: Dockerfile docker/*
+.build: Dockerfile docker/*.sh
 	docker build -t ruby-sandbox .
-	docker save --output sandbox.tar ruby-sandbox
+	touch .build
 
 test: build
 	bats test/*/*.bats
 
 clean:
-	docker rm -v --force `docker ps -a| grep ruby-sandbox | awk '{print $1}'` || true
+	docker rm -v --force `docker ps -a| grep ruby-sandbox | awk '{print $$1}'` || true
 	docker image rm --force ruby-sandbox || true
-	rm -rf sandbox.tar
+	rm -rf .build
 
 .PHONY: all build test clean

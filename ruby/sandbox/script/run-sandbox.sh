@@ -6,7 +6,8 @@ INPUT_DIR=$2
 docker run \
        -d \
        --memory=100m \
-       --cpus=0.125 \
+       --oom-kill-disable \
+       --cpus=0.75 \
        --network=none \
        -v $INPUT_DIR:/input:ro \
        $JUDGE-sandbox

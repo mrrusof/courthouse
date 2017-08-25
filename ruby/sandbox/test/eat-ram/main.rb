@@ -1,5 +1,5 @@
 threads = []
-10000.times do
+1000.times do
   threads << Thread.new do
     i = 0
     nn = []

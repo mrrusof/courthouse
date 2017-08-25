@@ -1,3 +1,3 @@
 export JUDGE_INPUT_DIR=$BATS_TEST_DIRNAME
 export JUDGE_TIMEOUT=2
-OUT=`$BATS_TEST_DIRNAME/../../script/run-judge.sh`
+OUT=`$BATS_TEST_DIRNAME/../../script/ruby-judge.sh`
