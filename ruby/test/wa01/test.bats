@@ -3,5 +3,6 @@ function setup {
 }
 
 @test "wa01: Test case is rejected." {
-  echo "$OUT" | grep WRONG_ANSWER
+  r=`echo "$OUT" | jshon -e ruling -u`
+  [ "$r" = WRONG_ANSWER ]
 }

@@ -3,5 +3,6 @@ function setup {
 }
 
 @test "to01: Test case times out." {
-  echo "$OUT" | grep TIMEOUT
+  r=`echo "$OUT" | jshon -e ruling -u`
+  [ "$r" = TIMEOUT ]
 }

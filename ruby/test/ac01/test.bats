@@ -3,5 +3,6 @@ function setup {
 }
 
 @test "ac01: Test case is accepted." {
-  echo "$OUT" | grep ACCEPTED
+  r=`echo "$OUT" | jshon -e ruling -u`
+  [ "$r" = ACCEPTED ]
 }

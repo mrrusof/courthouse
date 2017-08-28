@@ -3,25 +3,30 @@ function setup {
 }
 
 function teardown {
-  source $BATS_TEST_DIRNAME/../teardown.sh
+    source $BATS_TEST_DIRNAME/../teardown.sh
 }
 
-@test "three-part-output: There are 3 lines of output." {
-    r=$(docker logs $CID | wc -l)
+@test "three-part-output: Output is JSON object with 3 pairs." {
+    r=$(echo $OUT | jshon -l)
     [ "$r" = 3 ]
 }
 
-@test "three-part-output: First line of output is exit code 0." {
-    r=$(docker logs $CID | head -n 1)
+@test "three-part-output: Exit code is 0." {
+    r=$(echo $OUT | jshon -e exitCode)
     [ "$r" = 0 ]
 }
 
-@test "three-part-output: Second line of output is time." {
-    r=$(docker logs $CID | head -n 2 | tail -n 1)
+@test "three-part-output: Wall time has right format." {
+    r=$(echo $OUT | jshon -e wallTime -u)
     grep '^[0-9]:[0-9][0-9]\.[0-9][0-9]$' <<<"$r"
 }
 
-@test "three-part-output: Third line of output is output of input program." {
-    r=$(docker logs $CID | tail -n 1)
-    [ "$r" = 'this is the output' ]
+@test "three-part-output: Actual output is expected output." {
+    r="$(echo $OUT | jshon -e actualOutput)"
+    e="\"this is line 1\nthis is line 2\""
+    [ "$r" = "$e" ]
+}
+
+@test "three-part-output: Sandbox is not running after run-sandbox.sh exits." {
+  ! docker ps | grep $CID
 }

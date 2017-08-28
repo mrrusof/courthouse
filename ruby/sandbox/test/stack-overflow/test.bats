@@ -6,23 +6,27 @@ function teardown {
   source $BATS_TEST_DIRNAME/../teardown.sh
 }
 
-@test "stack-overflow: There are 3 or more lines of output." {
-  r=$(docker logs $CID | wc -l)
+@test "stack-overflow: Output is JSON object with 3 pairs." {
+  r=$(echo $OUT | jshon -l)
   [ "$r" -ge 3 ]
 }
 
-@test "stack-overflow: First line of output is exit code 1." {
-  r=$(docker logs $CID | head -n 1)
+@test "stack-overflow: Exit code is 1." {
+  r=$(echo $OUT | jshon -e exitCode)
   [ "$r" = 1 ]
 }
 
-@test "stack-overflow: Second line of output is time." {
-  r=$(docker logs $CID | head -n 2 | tail -n 1)
+@test "stack-overflow: Wall time has right format." {
+  r=$(echo $OUT | jshon -e wallTime -u)
   grep '^[0-9]:[0-9][0-9]\.[0-9][0-9]$' <<<"$r"
 }
 
-@test "stack-overflow: Third line of output is stack overflow error." {
-  r=$(docker logs $CID | head -n 3 | tail -n 1)
-  e="/input/main.rb:2:in \`this_wont_end_well': stack level too deep (SystemStackError)"
+@test "stack-overflow: Actual output is expected output." {
+  r=$(echo $OUT | jshon -e actualOutput -u | head -n 1)
+  e="/tmp/program.rb:2:in \`this_wont_end_well': stack level too deep (SystemStackError)"
   [ "$r" = "$e" ]
+}
+
+@test "stack-overflow: Sandbox is not running after run-sandbox.sh exits." {
+  ! docker ps | grep $CID
 }

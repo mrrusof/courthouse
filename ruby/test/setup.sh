@@ -1,3 +1,11 @@
-export JUDGE_INPUT_DIR=$BATS_TEST_DIRNAME
+PWD=$BATS_TEST_DIRNAME
+SCRIPT_DIR=$PWD/../../script
 export JUDGE_TIMEOUT=2
-OUT=`$BATS_TEST_DIRNAME/../../script/ruby-judge.sh`
+
+OUT=$(
+  <<<'{}' \
+  jshon -s "`cat $PWD/program.rb`" -i program \
+        -s "`cat $PWD/in`" -i input \
+        -s "`cat $PWD/out`" -i output | \
+  $SCRIPT_DIR/ruby-judge.sh
+)

@@ -1,1 +1,1 @@
-docker rm --force --volumes $CID || true
+$SCRIPT_DIR/remove-sandbox.sh

@@ -6,6 +6,7 @@
 - Bash 3.2
 - Make 3.81
 - Bats 0.4.0
+- jshon 20131105
 
 ## Build All Judges
 

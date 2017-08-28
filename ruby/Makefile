@@ -7,10 +7,14 @@ build: .build
 	touch .build
 
 sandbox:
-	$(MAKE) -C sandbox
+	$(MAKE) -C sandbox build
 
 test: build
 	bats test/*/*.bats
+
+test-all:
+	$(MAKE) -C sandbox test
+	$(MAKE) test
 
 clean:
 	docker rm -v --force `docker ps -a| grep ruby-judge | awk '{print $$1}'` || true
@@ -20,4 +24,4 @@ clean:
 clean-all: clean
 	$(MAKE) -C sandbox clean
 
-.PHONY: all build sandbox test clean clean-all
+.PHONY: all build sandbox test test-all clean clean-all

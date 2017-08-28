@@ -3,5 +3,6 @@ function setup {
 }
 
 @test "re01: Test case fails with runtime error." {
-  echo "$OUT" | grep RUNTIME_ERROR
+  r=`echo "$OUT" | jshon -e ruling -u`
+  [ "$r" = RUNTIME_ERROR ]
 }

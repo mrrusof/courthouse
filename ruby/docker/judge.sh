@@ -1,48 +1,41 @@
 #!/bin/bash
 
 # Environment
-JUDGE_TIMEOUT=${JUDGE_TIMEOUT:-10}
-
-# Functions
-
-function jsonify {
-    python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
-}
-
-function nth-line {
-    head -n $1 | tail -n 1
-}
-
-function dl {
-    docker logs $1
-}
+export SANDBOX_TIMEOUT=${JUDGE_TIMEOUT:-10}
 
 # Constants
 JUDGE=ruby
-ACT=`mktemp`
-EXP=/input/out
-DIFF=/tmp/$JUDGE-judge.diff
+RAW=/tmp/input.json
+SAN=/tmp/sandbox.json
+ACT=/tmp/act
+EXP=/tmp/exp
+DIFF=/tmp/act-exp.diff
+TMP=`mktemp --dry-run`
+export SANDBOX_NAME=$JUDGE-sandbox-`basename $TMP`
 
-CID=`/judge/run-sandbox.sh $JUDGE $SANDBOX_INPUT_DIR` 2>/dev/null
+cat >$RAW
+jshon -e output -u <$RAW >$EXP
 
-if ! /judge/wait-w-timeout.sh $CID $JUDGE_TIMEOUT >/dev/null 2>&1; then
-    echo '{ "ruling":"TIMEOUT", "time":"'$JUDGE_TIMEOUT'" }'
+/judge/run-sandbox.sh <$RAW >$SAN 2>/dev/null
+
+if [ "$?" = 137 ]; then
+    echo '{ "ruling":"TIMEOUT", "time":"'$SANDBOX_TIMEOUT'" }'
 else
-    exit_code=`dl $CID | nth-line 1`
-    time=`dl $CID | nth-line 2`
-    dl $CID | tail -n +3 >$ACT
-    actual=`cat $ACT | jsonify`
+    exit_code=`jshon -e exitCode <$SAN`
     if [ "$exit_code" = 0 ]; then
+        jshon -e actualOutput -u <$SAN >$ACT
         if diff $ACT $EXP >$DIFF 2>&1; then
-            echo -n '{ "ruling":"ACCEPTED", "time":"'
+            echo -n '{ "ruling":"ACCEPTED"'
         else
-            diff=`cat $DIFF | jsonify`
-            echo -n '{ "ruling":"WRONG_ANSWER", "diff":'$diff', "time":"'
+            diff=`jshon -s "$(cat $DIFF)" <<<'{}'`
+            echo -n '{ "ruling":"WRONG_ANSWER", "diff":'$diff
         fi
     else
-        echo -n '{ "ruling":"RUNTIME_ERROR", "exitCode":"'$exit_code'", "time":"'
+        echo -n '{ "ruling":"RUNTIME_ERROR", "exitCode":'$exit_code
     fi
-    echo $time'", "actual":'$actual' }'
+    wall_time=`jshon -e wallTime -u <$SAN`
+    actual=`jshon -e actualOutput <$SAN`
+    echo ', "wallTime":"'$wall_time'", "actual":'$actual' }'
 fi
 
-docker rm --force --volumes $CID >/dev/null
+/judge/remove-sandbox.sh >/dev/null
