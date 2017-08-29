@@ -1,4 +1,4 @@
-all: test
+all: build
 
 build: .build
 

@@ -22,8 +22,8 @@ function teardown {
 }
 
 @test "three-part-output: Actual output is expected output." {
-    r="$(echo $OUT | jshon -e actualOutput)"
-    e="\"this is line 1\nthis is line 2\""
+    r="$(echo "$OUT" | jshon -e actualOutput)"
+    e="\"this is line 1\nthis is line 2\n\""
     [ "$r" = "$e" ]
 }
 
