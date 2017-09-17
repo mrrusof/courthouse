@@ -1,8 +1,10 @@
 #!/bin/bash
 
 JUDGE=ruby
+IMAGE=$JUDGE-sandbox
+REPO=mrrusof/$IMAGE
 TIMEOUT=${SANDBOX_TIMEOUT:-10}
-NAME=${SANDBOX_NAME:-$JUDGE-sandbox}
+NAME=${SANDBOX_NAME:-$IMAGE}
 
 timeout --preserve-status \
         --kill-after=0 \
@@ -15,4 +17,4 @@ docker run \
         --cpus=0.75 \
         --network=none \
         --name $NAME \
-        $JUDGE-sandbox
+        $REPO

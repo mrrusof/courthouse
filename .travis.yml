@@ -8,3 +8,5 @@ before_install:
 
 script:
   - make test
+  - docker login -u mrrusof -p $DOCKER_PWD
+  - make push
