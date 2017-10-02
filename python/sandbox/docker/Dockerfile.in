@@ -1,0 +1,7 @@
+FROM python:3.6
+
+LABEL maintainer ruslanledesmagarza@gmail.com
+
+ENV INTERPRETER=python
+
+#include "../../../common/sandbox/docker/sandbox.docker"

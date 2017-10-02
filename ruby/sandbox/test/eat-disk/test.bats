@@ -1,11 +1,11 @@
 TEST_NAME=`basename $BATS_TEST_DIRNAME`
 
 function setup {
-  source $BATS_TEST_DIRNAME/../setup.sh
+  source $BATS_TEST_DIRNAME/../../../../common/sandbox/test/setup.sh
 }
 
 function teardown {
-  source $BATS_TEST_DIRNAME/../teardown.sh
+  source $BATS_TEST_DIRNAME/../../../../common/sandbox/test/teardown.sh
 }
 
 @test "$TEST_NAME: run-sandbox.sh times out." {

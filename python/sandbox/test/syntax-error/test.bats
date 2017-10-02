@@ -24,8 +24,8 @@ function teardown {
 }
 
 @test "$TEST_NAME: Actual output is expected output." {
-  r="$(echo $OUT | jshon -e actualOutput -u)"
-  e="/tmp/program:1:in \`<main>': undefined local variable or method \`bla' for main:Object (NameError)"
+  r="$(echo $OUT | jshon -e actualOutput -u | tail -n 2 | head -n 1)"
+  e="NameError: name 'bla' is not defined"
   [ "$r" = "$e" ]
 }
 

@@ -1,4 +1,4 @@
-JUDGE=ruby
+JUDGE=python
 ROOT=../..
 
 include $(ROOT)/common/sandbox/sandbox.mk

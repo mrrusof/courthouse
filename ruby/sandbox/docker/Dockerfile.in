@@ -1,0 +1,7 @@
+FROM ruby:2.4
+
+LABEL maintainer ruslanledesmagarza@gmail.com
+
+ENV INTERPRETER=ruby
+
+#include "../../../common/sandbox/docker/sandbox.docker"

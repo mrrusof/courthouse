@@ -1,0 +1,4 @@
+def this_wont_end_well(n):
+  this_wont_end_well(n + 1)
+
+this_wont_end_well(0)

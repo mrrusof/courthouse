@@ -1,0 +1,1 @@
+SANDBOX_NAME=$SANDBOX_NAME $SCRIPT_DIR/remove-sandbox.sh

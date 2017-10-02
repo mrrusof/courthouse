@@ -1,27 +1,26 @@
-JUDGES=ruby
-PUSH_JUDGES=$(addprefix push-, $(JUDGES))
-TEST_JUDGES=$(addprefix test-, $(JUDGES))
-CLEAN_JUDGES=$(addprefix clean-, $(JUDGES))
+DIRS=judge ruby python
+PUSH_ALL=$(addprefix push-, $(DIRS))
+TEST_ALL=$(addprefix test-, $(DIRS))
+CLEAN_ALL=$(addprefix clean-, $(DIRS))
 
+all: $(DIRS)
 
-all: $(JUDGES)
-
-$(JUDGES):
+$(DIRS):
 	$(MAKE) -C $@
 
-push: $(PUSH_JUDGES)
+push: $(PUSH_ALL)
 
-$(PUSH_JUDGES): push-% :
-	$(MAKE) -C $* push-all
+$(PUSH_ALL): push-% :
+	$(MAKE) -C $* push
 
-test: $(TEST_JUDGES)
+test: $(TEST_ALL)
 
-$(TEST_JUDGES): test-% :
-	$(MAKE) -C $* test-all
+$(TEST_ALL): test-% :
+	$(MAKE) -C $* test
 
-clean: $(CLEAN_JUDGES)
+clean: $(CLEAN_ALL)
 
-$(CLEAN_JUDGES): clean-% :
-	$(MAKE) -C $* --ignore-errors clean-all
+$(CLEAN_ALL): clean-% :
+	$(MAKE) -C $* clean
 
-.PHONY: all $(JUDGES) push $(PUSH_JUDGES) test $(TEST_JUDGES) clean $(CLEAN_JUDGES)
+.PHONY: all build $(DIRS) push $(PUSH_ALL) test $(TEST_ALL) clean $(CLEAN_ALL)

@@ -25,3 +25,4 @@ function teardown {
   $SCRIPT_DIR/remove-sandbox.sh
   ! docker ps | grep $CID
 }
+

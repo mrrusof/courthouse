@@ -10,7 +10,7 @@ function teardown {
 
 @test "$TEST_NAME: Output is JSON object with 3 pairs." {
   r=$(echo $OUT | jshon -l)
-  [ "$r" = 3 ]
+  [ "$r" -ge 3 ]
 }
 
 @test "$TEST_NAME: Exit code is 1." {
@@ -24,8 +24,8 @@ function teardown {
 }
 
 @test "$TEST_NAME: Actual output is expected output." {
-  r="$(echo $OUT | jshon -e actualOutput -u)"
-  e="/tmp/program:1:in \`<main>': undefined local variable or method \`bla' for main:Object (NameError)"
+  r=$(echo $OUT | jshon -e actualOutput -u | tail -n 2 | head -n 1)
+  e="RecursionError: maximum recursion depth exceeded"
   [ "$r" = "$e" ]
 }
 
