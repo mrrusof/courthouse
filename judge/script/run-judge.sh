@@ -1,5 +1,6 @@
 #!/bin/bash
 
+JUDGE=${1:-$JUDGE}
 IMAGE=judge
 REPO=mrrusof/$IMAGE
 JUDGE_TIMEOUT=${JUDGE_TIMEOUT:-10}
