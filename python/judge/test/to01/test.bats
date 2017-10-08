@@ -8,3 +8,7 @@ function setup {
   r=`echo "$OUT" | jshon -e ruling -u`
   [ "$r" = TIMEOUT ]
 }
+
+@test "$TEST_NAME: Time is reported." {
+  echo "$OUT" | jshon -e wallTime -u
+}

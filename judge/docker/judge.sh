@@ -27,7 +27,7 @@ SANDBOX_NAME=$SANDBOX_NAME \
 /judge/run-sandbox.sh <$RAW >$SAN 2>/dev/null
 
 if [ "$?" = 137 ]; then
-    echo '{ "ruling":"TIMEOUT", "time":"'$SANDBOX_TIMEOUT'" }'
+    echo '{ "ruling":"TIMEOUT", "wallTime":"'$SANDBOX_TIMEOUT'" }'
 else
     exit_code=`jshon -e exitCode <$SAN`
     if [ "$exit_code" = 0 ]; then
