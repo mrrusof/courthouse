@@ -1,4 +1,4 @@
-DIRS=judge ruby python
+DIRS=judge ruby python elixir
 PUSH_ALL=$(addprefix push-, $(DIRS))
 TEST_ALL=$(addprefix test-, $(DIRS))
 CLEAN_ALL=$(addprefix clean-, $(DIRS))
