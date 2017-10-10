@@ -7,6 +7,4 @@ before_install:
   - sudo apt-get install -y jshon
 
 script:
-  - make test
-  - docker login -u mrrusof -p $DOCKER_PWD
-  - make push
+  - make test && docker login -u mrrusof -p $DOCKER_PWD && make push
