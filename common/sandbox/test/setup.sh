@@ -1,7 +1,7 @@
 PWD=$BATS_TEST_DIRNAME
 source $PWD/../../../../common/test/helpers.sh
 SCRIPT_DIR=$PWD/../../../../judge/docker
-SANDBOX_TIMEOUT=2
+SANDBOX_TIMEOUT=${SANDBOX_TIMEOUT:-2}
 TMP=`mktemp --dry-run`
 SANDBOX_NAME=$JUDGE-sandbox-`basename $TMP`
 CID=$SANDBOX_NAME
@@ -21,3 +21,5 @@ OUT=$(
   SANDBOX_NAME=$SANDBOX_NAME \
   $SCRIPT_DIR/run-sandbox.sh
 ) || EC=$?
+
+echo -e "OUT: $OUT"

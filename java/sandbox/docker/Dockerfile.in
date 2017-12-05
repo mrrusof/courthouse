@@ -1,0 +1,8 @@
+FROM openjdk:8
+
+LABEL maintainer ruslanledesmagarza@gmail.com
+
+ENV COMPILE='cp -v $SRC main.java && javac -verbose main.java'
+ENV MAIN='java main'
+
+#include "../../../common/sandbox/docker/sandbox.docker"

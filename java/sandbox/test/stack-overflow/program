@@ -1,0 +1,11 @@
+public class main {
+
+    public static void main(String... args) throws InterruptedException {
+        thisWontEndWell(0);
+    }
+
+    static void thisWontEndWell(int n) {
+        thisWontEndWell(n + 1);
+    }
+
+}
