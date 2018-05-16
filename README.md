@@ -1,3 +1,5 @@
+# Project abandoned. Go have a look to its successor, [The Witness Stand](https://github.com/mrrusof/the-witness-stand).
+
 # The Bench [![Build Status](https://travis-ci.org/mrrusof/the-bench.svg?branch=master)](https://travis-ci.org/mrrusof/the-bench)
 
 ## Requirements
